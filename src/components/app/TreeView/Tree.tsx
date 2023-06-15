@@ -1,12 +1,14 @@
 // Tree.tsx
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { TreeNode, TreeNodeType } from './TreeNode';
 
 interface TreeProps {
   data: TreeNodeType[];
+  activeKey?: string | undefined;
+  setActiveKey?: Dispatch<SetStateAction<string | undefined>>;
 }
 
-export const Tree: FC<TreeProps> = ({ data }) => {
+const Tree: React.FC<TreeProps> = ({ data, activeKey, setActiveKey }) => {
   const [openNodes, setOpenNodes] = useState<{ [key: string]: string }>({});
 
   return (
@@ -17,3 +19,5 @@ export const Tree: FC<TreeProps> = ({ data }) => {
     </div>
   );
 };
+export { Tree };  export type { TreeProps };
+

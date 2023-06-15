@@ -17,6 +17,7 @@ import styled from 'styled-components';
 
 const StyledNavWrapper = styled.div`
   max-width: 400px;
+  overflow : hidden;
 `;
 
 const StyledRightContent = styled.div`
@@ -121,8 +122,9 @@ const CourseView = ({ params, space }: { params: { courseInfo: string[] }; space
                 submissionHelper={submissionHelper}
                 topicKey={topicKey}
                 itemType={itemType as ItemTypes}
-                itemKey={itemKey}
-              />
+                itemKey={itemKey} setActiveTopicKey={function (topicKey: string): void {
+                  throw new Error('Function not implemented.');
+                } }              />
             </StyledRightContent>
           </div>
         </Block>
