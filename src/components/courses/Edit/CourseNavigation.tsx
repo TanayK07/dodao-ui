@@ -23,6 +23,7 @@ interface CourseNavigationProps {
   courseHelper: CourseHelper;
   submissionHelper: CourseSubmissionHelper;
 }
+
 const ClickableDiv = styled.div`
   cursor: pointer;
 `;
@@ -83,6 +84,11 @@ const Container = styled.div`
 
 const CourseComponent: React.FC<CourseNavigationProps> = ({ course, space, showAddModal, courseHelper }) => {
   const isCourseAdmin = true;
+  const [activeTopicKey, setActiveTopicKey] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Set the initial active topic key here if needed
+  }, []);
 
   function getReadings(topic: CourseTopicFragment, readings: CourseReadingFragment[]) {
     return readings.map((reading, i) => {
@@ -113,6 +119,7 @@ const CourseComponent: React.FC<CourseNavigationProps> = ({ course, space, showA
       };
     });
   }
+
   function getSummaries(topic: CourseTopicFragment, summaries: CourseSummaryFragment[]) {
     return summaries.map((summary, i) => {
       return {
@@ -200,6 +207,7 @@ const CourseComponent: React.FC<CourseNavigationProps> = ({ course, space, showA
     });
 
     return {
+      key: chapter.key, // Add this line to set the key for each node
       component: (
         <Link key={chapter.key + '_chapter_root'} className="flex items-center" href={`/courses/view/${course.key}/${chapter.key}`}>
           <div className="icon mr-2">
@@ -219,7 +227,7 @@ const CourseComponent: React.FC<CourseNavigationProps> = ({ course, space, showA
           <AddIcon /> Add
         </Button>
       )}
-      <Tree data={treeData1} />
+      <Tree data={treeData1} activeKey={activeTopicKey} setActiveKey={setActiveTopicKey} />
     </Container>
   );
 };

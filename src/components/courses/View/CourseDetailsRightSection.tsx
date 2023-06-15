@@ -1,3 +1,4 @@
+import React from 'react';
 import ChapterSubmission from '@/components/courses/View/Details/ChapterSubmission';
 import CourseDetails from '@/components/courses/View/Details/CourseDetails';
 import QuestionDetails from '@/components/courses/View/Details/QuestionDetails';
@@ -9,16 +10,17 @@ import { CourseHelper } from '@/components/courses/View/useViewCourse';
 import { CourseDetailsFragment, Space } from '@/graphql/generated/generated-types';
 
 export type ItemTypes = 'readings' | 'summaries' | 'explanations' | 'questions' | 'submission';
+
 interface CourseDetailsRightSectionProps {
   space: Space;
   course: CourseDetailsFragment;
   isCourseAdmin: boolean;
   courseHelper: CourseHelper;
   submissionHelper: CourseSubmissionHelper;
-
   topicKey?: string;
   itemType?: ItemTypes;
   itemKey?: string;
+  setActiveTopicKey: (topicKey: string) => void;
 }
 
 export default function CourseDetailsRightSection(props: CourseDetailsRightSectionProps) {
@@ -72,6 +74,7 @@ export default function CourseDetailsRightSection(props: CourseDetailsRightSecti
       />
     );
   } else if (props.topicKey) {
+    props.setActiveTopicKey(props.topicKey);
     return (
       <TopicDetails
         space={props.space}
