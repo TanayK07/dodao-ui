@@ -2,10 +2,10 @@
 
 import withSpace from '@/app/withSpace';
 import Block from '@/components/app/Block';
-import Button from '@/components/app/Button';
-import Input from '@/components/app/Input';
-import PageLoading from '@/components/app/PageLoading';
-import TextareaArray from '@/components/app/TextArea/TextareaArray';
+import Input from '@/components/core/input/Input';
+import PageLoading from '@/components/core/loaders/PageLoading';
+import Button from '@/components/core/buttons/Button';
+import TextareaArray from '@/components/core/textarea/TextareaArray';
 import { CreateByteUsingAIModal } from '@/components/bytes/Create/CreateByteUsingAIModal';
 import EditByteStepper from '@/components/bytes/Edit/EditByteStepper';
 import { EditByteType, useEditByte } from '@/components/bytes/Edit/useEditByte';
@@ -15,6 +15,7 @@ import { SpaceWithIntegrationsFragment } from '@/graphql/generated/generated-typ
 import SingleCardLayout from '@/layouts/SingleCardLayout';
 import { PublishStatus, VisibilityEnum } from '@/types/deprecated/models/enums';
 import { ByteErrors } from '@/types/errors/byteErrors';
+import { StatusBadge } from '@/utils/byte/StatusBadge';
 import { publishStatuses, visibilityOptions } from '@/utils/ui/statuses';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -59,8 +60,12 @@ function EditByte(props: { space: SpaceWithIntegrationsFragment; params: { byteI
             <span className="mr-1 font-bold">&#8592;</span>
             {byteId ? byte.name : 'Back to Bytes'}
           </Link>
-          {!byteId && <Button onClick={() => setShowAIGenerateModel(true)}>Create with AI</Button>}
+          <div>
+            <StatusBadge status={byte.publishStatus} />
+            {!byteId && <Button onClick={() => setShowAIGenerateModel(true)}>Create with AI</Button>}
+          </div>
         </div>
+
         {byteLoaded ? (
           <div className="pb-10">
             <Block title="Basic Info" className="mt-4">
@@ -125,10 +130,7 @@ function EditByte(props: { space: SpaceWithIntegrationsFragment; params: { byteI
             </Block>
 
             <div className="flex">
-              <Button onClick={handleSubmit} loading={!byteLoaded || byteCreating} className="block w-full mr-2" primary>
-                Submit
-              </Button>
-              <Button onClick={handleSave} loading={!byteLoaded || byteCreating} className="ml-2 block w-full" variant="contained" primary>
+              <Button onClick={handleSave} loading={!byteLoaded || byteCreating} className="block w-full mr-2" primary>
                 Save
               </Button>
               <Button onClick={handlePublish} loading={!byteLoaded || byteCreating} className="ml-2 block w-full" variant="contained" primary>
